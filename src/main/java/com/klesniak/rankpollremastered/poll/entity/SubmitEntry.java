@@ -1,5 +1,6 @@
 package com.klesniak.rankpollremastered.poll.entity;
 
+import com.klesniak.rankpollremastered.user.User;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,29 +13,36 @@ public class SubmitEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Poll poll;
+    @Column(name = "poll_id")
+    private String pollId;
 
     @ElementCollection
     private List<String> submittedAnswers;
 
     private String ipAddress;
 
+    private Long userId;
+
     private SubmitEntry() {
     }
 
-    public SubmitEntry(Poll poll, List<String> submittedAnswers, String ipAddress) {
-        this.poll = poll;
+    public SubmitEntry(String pollId, List<String> submittedAnswers, String ipAddress, Long userId) {
+        this.pollId = pollId;
         this.submittedAnswers = submittedAnswers;
         this.ipAddress = ipAddress;
+        this.userId = userId;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Poll getPoll() {
-        return poll;
+    public String getPollId() {
+        return pollId;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public List<String> getSubmittedAnswers() {

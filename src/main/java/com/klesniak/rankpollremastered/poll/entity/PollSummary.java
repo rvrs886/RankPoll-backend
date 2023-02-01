@@ -2,7 +2,7 @@ package com.klesniak.rankpollremastered.poll.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "poll_summaries")
@@ -12,17 +12,17 @@ public class PollSummary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Poll poll;
+    @Column(name = "poll_id")
+    private String pollId;
 
     @ElementCollection
-    List<AnswerSummary> answerSummaries;
+    private Set<AnswerSummary> answerSummaries;
 
     private PollSummary() {
     }
 
-    public PollSummary(Poll poll, List<AnswerSummary> answerSummaries) {
-        this.poll = poll;
+    public PollSummary(String pollId, Set<AnswerSummary> answerSummaries) {
+        this.pollId = pollId;
         this.answerSummaries = answerSummaries;
     }
 
@@ -30,11 +30,18 @@ public class PollSummary {
         return id;
     }
 
-    public Poll getPoll() {
-        return poll;
+    public void setAnswerSummaries(Set<AnswerSummary> answerSummaries) {
+        this.answerSummaries = answerSummaries;
     }
 
-    public List<AnswerSummary> getAnswerSummaries() {
+    public Set<AnswerSummary> getAnswerSummaries() {
         return answerSummaries;
+    }
+
+    public AnswerSummary getAnswerSummaryByAnswer(String answer) {
+        return answerSummaries.stream()
+                .filter(answerSummary -> answerSummary.getAnswer().equals(answer))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Answer: [" + answer + "] not found!"));
     }
 }

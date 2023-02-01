@@ -10,6 +10,6 @@ public interface SubmitEntryRepository extends JpaRepository<SubmitEntry, Long> 
 
     Optional<SubmitEntry> findByIpAddress(String ipAddress);
 
-    List<SubmitEntry> findAllByPoll_Id(String pollId);
+    List<SubmitEntry> findAllByPollId(String pollId);
 
 }

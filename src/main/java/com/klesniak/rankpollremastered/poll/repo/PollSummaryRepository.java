@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface PollSummaryRepository extends JpaRepository<PollSummary, Long> {
 
-    Optional<PollSummary> findByPoll_Id(String pollId);
+    Optional<PollSummary> findByPollId(String pollId);
 
 }

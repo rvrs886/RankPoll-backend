@@ -2,42 +2,54 @@ package com.klesniak.rankpollremastered.poll.entity;
 
 import jakarta.persistence.Embeddable;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toSet;
+
 @Embeddable
 public class AnswerSummary {
 
     private String answer;
 
-    private int answerCount = 0;
+    private long answerCount = 0;
 
-    public AnswerSummary(String answer, int answerCount) {
+    public AnswerSummary(String answer, long answerCount) {
         this.answer = answer;
         this.answerCount = answerCount;
     }
 
-    public AnswerSummary() {
+    private AnswerSummary() {
     }
 
     public static AnswerSummary from(String answer) {
-        return new AnswerSummary(answer, 0);
+        return new AnswerSummary(answer, 0L);
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public void setAnswerCount(int answerCount) {
-        this.answerCount = answerCount;
+    public static Set<AnswerSummary> from(List<String> answers) {
+        return answers.stream()
+                .map(AnswerSummary::from)
+                .collect(toSet());
     }
 
     public String getAnswer() {
         return answer;
     }
 
-    public int getAnswerCount() {
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public long getAnswerCount() {
         return answerCount;
     }
 
-    public void increaseAnswerCount() {
-        this.answerCount++;
+    public void setAnswerCount(long answerCount) {
+        this.answerCount = answerCount;
+    }
+
+    public void increaseCount() {
+        answerCount++;
     }
 }

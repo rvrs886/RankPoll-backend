@@ -6,6 +6,7 @@ import com.klesniak.rankpollremastered.poll.dto.PollCreationDto;
 import com.klesniak.rankpollremastered.poll.dto.SubmitDto;
 import com.klesniak.rankpollremastered.poll.entity.Poll;
 import com.klesniak.rankpollremastered.poll.entity.PollSummary;
+import com.klesniak.rankpollremastered.poll.repo.PollRepository;
 import com.klesniak.rankpollremastered.poll.service.PollService;
 import com.klesniak.rankpollremastered.user.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,19 +14,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/polls")
 @RestController
 public class PollController {
 
     private final PollService pollService;
 
-    public PollController(PollService pollService) {
+    private final PollRepository pollRepository;
+
+    public PollController(PollService pollService, PollRepository pollRepository) {
         this.pollService = pollService;
+        this.pollRepository = pollRepository;
+    }
+
+    @GetMapping
+    public List<Poll> getPolls() {
+        return pollRepository.findAll();
     }
 
     //TODO: test this endpoint
     @GetMapping("/external/{pollId}")
-    @CrossOrigin
     public ResponseEntity<Poll> getPoll(@PathVariable("pollId") String pollId) {
         return ResponseEntity.ok(pollService.getPoll(pollId));
     }
@@ -48,7 +58,6 @@ public class PollController {
 
     //TODO: test this endpoint
     @PostMapping("/external/submit")
-    @CrossOrigin
     public ResponseEntity<?> submitAnswer(@RequestBody SubmitDto submitDto, HttpServletRequest request) {
         pollService.submitAnswer(submitDto, request.getRemoteAddr());
         return ResponseEntity.ok().build();
@@ -61,14 +70,13 @@ public class PollController {
     }
 
     @GetMapping("/external/submit/{pollId}/isSubmitted")
-    @CrossOrigin
     public boolean hasAlreadySubmitted(@PathVariable("pollId") String pollId, HttpServletRequest request) {
-        return pollService.hasAlreadyAnswered(pollId, request.getRemoteAddr());
+        return pollService.isAlreadySubmitted(pollId, request.getRemoteAddr());
     }
 
     @GetMapping("/submit/{pollId}/isSubmitted")
     public boolean hasAlreadySubmitted(@PathVariable("pollId") String pollId, HttpServletRequest request, User user) {
-        return pollService.hasAlreadyAnswered(pollId, request.getRemoteAddr());
+        return pollService.isAlreadySubmitted(pollId, request.getRemoteAddr());
     }
 
     //TODO: test this exception handler
