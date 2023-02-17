@@ -13,7 +13,7 @@ import com.klesniak.rankpollremastered.poll.exception.SummaryNotFoundException;
 import com.klesniak.rankpollremastered.poll.repo.PollRepository;
 import com.klesniak.rankpollremastered.poll.repo.PollSummaryRepository;
 import com.klesniak.rankpollremastered.poll.repo.SubmitEntryRepository;
-import com.klesniak.rankpollremastered.user.User;
+import com.klesniak.rankpollremastered.user.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

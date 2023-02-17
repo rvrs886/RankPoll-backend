@@ -8,7 +8,7 @@ import com.klesniak.rankpollremastered.poll.entity.Poll;
 import com.klesniak.rankpollremastered.poll.entity.PollSummary;
 import com.klesniak.rankpollremastered.poll.repo.PollRepository;
 import com.klesniak.rankpollremastered.poll.service.PollService;
-import com.klesniak.rankpollremastered.user.User;
+import com.klesniak.rankpollremastered.user.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

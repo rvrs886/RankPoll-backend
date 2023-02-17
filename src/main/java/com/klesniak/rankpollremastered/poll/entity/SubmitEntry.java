@@ -1,6 +1,5 @@
 package com.klesniak.rankpollremastered.poll.entity;
 
-import com.klesniak.rankpollremastered.user.User;
 import jakarta.persistence.*;
 
 import java.util.List;
